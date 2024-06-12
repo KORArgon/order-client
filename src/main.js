@@ -21,9 +21,13 @@ import router from "./router/index";
 import BlackDashboard from "./plugins/blackDashboard";
 import i18n from "./i18n";
 import "./registerServiceWorker";
+import axios from './axios';
+Vue.prototype.$axios = axios;
 Vue.use(BlackDashboard);
 Vue.use(VueRouter);
 Vue.use(RouterPrefetch);
+// Vue.config.globalProperties.$axios = axios;
+
 new Vue({
   router,
   i18n,

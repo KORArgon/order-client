@@ -4,69 +4,19 @@
       <card>
         <div class="places-buttons">
           <div class="row">
-            <div class="col-md-6 ml-auto mr-auto text-center">
-              <h4 class="card-title">
-                <h4 slot="header">인기메뉴</h4>
-                <p class="category">Click to view notifications</p>
-              </h4>
-            </div>
-          </div>
-          <div class="row">
             <div class="col-lg-8 ml-auto mr-auto">
               <div class="row">
-                <div class="col-md-4">
-                  <base-button
-                    type="primary"
-                    block
-                    @click="notifyVue('top', 'left')"
-                  >Top Left</base-button
-                  >
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-for="item in menuitems" :key="item.foodMenuNo" v-if="item.popularAt == 'Y'">
                   <base-button
                     type="primary"
                     block
                     @click="notifyVue('top', 'center')"
-                  >Top Center</base-button
                   >
-                </div>
-                <div class="col-md-4">
-                  <base-button
-                    type="primary"
-                    block
-                    @click="notifyVue('top', 'right')"
-                  >Top Right</base-button
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-8 ml-auto mr-auto">
-              <div class="row">
-                <div class="col-md-4">
-                  <base-button
-                    type="primary"
-                    block
-                    @click="notifyVue('bottom', 'left')"
-                  >Bottom Left</base-button
-                  >
-                </div>
-                <div class="col-md-4">
-                  <base-button
-                    type="primary"
-                    block
-                    @click="notifyVue('bottom', 'center')"
-                  >Bottom Center</base-button
-                  >
-                </div>
-                <div class="col-md-4">
-                  <base-button
-                    type="primary"
-                    block
-                    @click="notifyVue('bottom', 'right')"
-                  >Bottom Right</base-button
-                  >
+                    <img style="height: 180px; width: 240px"
+                         :src="`http://lhstest.iptime.org/data/web/webapps/order/uploadFile/${ item.image.path }${ item.image.storeName }`"/><br>
+                    {{ item.foodMenuNm }}<br>
+                    {{ item.foodMenuPrice }}원
+                  </base-button>
                 </div>
               </div>
             </div>
@@ -78,7 +28,7 @@
 </template>
 <script>
 import NotificationTemplate from "./Notifications/NotificationTemplate";
-import { BaseAlert } from "@/components";
+import {BaseAlert} from "@/components";
 
 export default {
   components: {
@@ -90,7 +40,11 @@ export default {
       notifications: {
         topCenter: false,
       },
+      menuitems: [],
     };
+  },
+  created() {
+    this.fetchData();
   },
   methods: {
     notifyVue(verticalAlign, horizontalAlign) {
@@ -103,6 +57,15 @@ export default {
         type: this.type[color],
         timeout: 0,
       });
+    },
+    async fetchData() {
+      try {
+        const response = await this.$axios.get('/api/v2/foodMenuList?id=B202404292054200025'); // '/items' 엔드포인트를 호출합니다.
+        this.menuitems = response.data.body;
+        console.log(response.data)
+      } catch (error) {
+        console.error('API 호출 에러:', error);
+      }
     },
   },
 };

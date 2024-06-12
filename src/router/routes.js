@@ -11,29 +11,16 @@ const Side = () =>
   import(/* webpackChunkName: "dashboard" */ "@/pages/Side.vue");
 const Drink = () =>
   import(/* webpackChunkName: "dashboard" */ "@/pages/Drink.vue");
-const Dashboard = () =>
-  import(/* webpackChunkName: "dashboard" */ "@/pages/Dashboard.vue");
-const Profile = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
-const Notifications = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Notifications.vue");
-const Icons = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Icons.vue");
-const Maps = () => import(/* webpackChunkName: "common" */ "@/pages/Maps.vue");
-const Typography = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Typography.vue");
-const TableList = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
 
 const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/popular",
     children: [
       {
         path: "popular",
-        name: "인기메뉴",
+        name: "popular",
         component: Popular,
       },
       {
@@ -51,53 +38,9 @@ const routes = [
         name: "drink",
         component: Drink,
       },
-      {
-        path: "dashboard",
-        name: "dashboard",
-        component: Dashboard,
-      },
-      {
-        path: "profile",
-        name: "profile",
-        component: Profile,
-      },
-      {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications,
-      },
-      {
-        path: "icons",
-        name: "icons",
-        component: Icons,
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps,
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography,
-      },
-      {
-        path: "table-list",
-        name: "table-list",
-        component: TableList,
-      },
     ],
   },
   { path: "*", component: NotFound },
 ];
-
-/**
- * Asynchronously load view (Webpack Lazy loading compatible)
- * The specified component must be inside the Views folder
- * @param  {string} name  the filename (basename) of the view to load.
-function view(name) {
-   var res= require('../components/Dashboard/Views/' + name + '.vue');
-   return res;
-};**/
 
 export default routes;
